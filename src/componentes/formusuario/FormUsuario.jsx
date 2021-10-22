@@ -1,23 +1,22 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function FormProduto(props) {
 
     let id = null
 
-    // if (props.match.path.toLowerCase().includes('editar')) {
-    //     id = props.match.params.id
-    // }
+    if (props.match.path.toLowerCase().includes('editar')) {
+        id = props.match.params.id
+    }
 
     const [novo, setNovo] = useState({
-        codigo: id,
-        nome: "",
-        senha: "",
-        email: "",
-        nascimento: "",
-        gosto: "",
-        genero: ""
+        cd_usuario: id,
+        nm_usuario: "",
+        sn_usuario: "",
+        dt_nascimento: "",
+        ds_gosto_pessoal: "",
+        gr_genero: ""
     })
 
 
@@ -27,54 +26,46 @@ export default function FormProduto(props) {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        fetch("/rest/usuario/", {
+        fetch("/rest/usuario/" + id, {
             method: "PUT",
             headers: {
+                Accept: 'application/json',
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                cd_usuario: novo.codigo,
-                nm_usuario: novo.nome,
-                sn_usuario: novo.senha,
-                ds_email: novo.email,
-                dt_nascimento: novo.nascimento,
-                ds_gosto_pessoal: novo.gosto,
-                gr_genero: novo.genero
-            })
+            body: JSON.stringify(novo)
         
         }).then(() => {
-            console.log(novo);
             window.location = "/"
         })
     }
-    // useEffect(() => {
-    //     if (id) {
-    //         fetch("/rest/usuario/" + id).then(resp => {
-    //             return (resp.json())
-    //         }).then(data => {
-    //             setNovo(data)
-    //         })
-    //     }
-    // }, [id])
+    useEffect(() => {
+        if (id) {
+            fetch("/rest/usuario/" + id).then(resp => {
+                return (resp.json())
+            }).then(data => {
+                setNovo(data)
+            })
+        }
+    }, [id])
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <legend>FORM-USUARIOS</legend>
                     <div>
-                        <input type="text" name="nome" placeholder="Nome" value={novo.nome} onChange={handleChange} />
+                        <input type="text" name="nm_usuario" placeholder="Nome" value={novo.nm_usuario} onChange={handleChange} />
                     </div>
                     <div>
-                        <input type="password" name="senha" placeholder="Senha" value={novo.senha} onChange={handleChange} />
+                        <input type="password" name="sn_usuario" placeholder="Senha" value={novo.sn_usuario} onChange={handleChange} />
                     </div>
                     <div>
-                        <input type="text" name="nascimento" placeholder="Data de Nascimento" value={novo.nascimento} onChange={handleChange} />
+                        <input type="text" name="dt_nascimento" placeholder="Data de Nascimento" value={novo.dt_nascimento} onChange={handleChange} />
                     </div>
                     <div>
-                        <input type="text" name="gosto" placeholder="Gosto Pessoal" value={novo.gosto} onChange={handleChange} />
+                        <input type="text" name="ds_gosto_pessoal" placeholder="Gosto Pessoal" value={novo.ds_gosto_pessoal} onChange={handleChange} />
                     </div>
                     <div>
-                        <input type="text" name="genero" placeholder="Genero" value={novo.genero} onChange={handleChange} />
+                        <input type="text" name="gr_genero" placeholder="Genero" value={novo.gr_genero} onChange={handleChange} />
                     </div>
                     <div>
                         <button type="submit">ENVIAR</button>

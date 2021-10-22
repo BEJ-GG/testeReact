@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { FaEdit as ED, FaTrash as EX } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 
@@ -56,8 +55,8 @@ export default function ListaUsuario() {
                             <td>{p.ds_gosto_pessoal}</td>
                             <td>{p.gr_genero}</td>
                             <td>
-                                <Link title="Editar" to={`/editar/${p.cd_usuario}`}><ED /></Link>
-                                <Link title="Excluir" to="/" onClick={handleDelete.bind(this, p.cd_usuario)}><EX /></Link>
+                                <Link title="Editar" to={`/editar/${p.cd_usuario}`}>UPDATE  |</Link>
+                                <Link title="Excluir" to="/" onClick={handleDelete.bind(this, p.cd_usuario)}>  EXCLUIR</Link>
                             </td>
                         </tr>))}
                 </tbody>
